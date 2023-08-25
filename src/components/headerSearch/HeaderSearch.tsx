@@ -8,7 +8,11 @@ interface HeaderSearchProps {
   onSearch: () => void;
 }
 
-export const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchTerm, onSearchTermChange, onSearch }) => {
+export const HeaderSearch: React.FC<HeaderSearchProps> = ({
+  searchTerm,
+  onSearchTermChange,
+  onSearch,
+}) => {
   return (
     <div className="mb-4">
       <TextField
@@ -17,12 +21,14 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchTerm, onSearch
         variant="outlined"
         fullWidth
         value={searchTerm}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onSearchTermChange(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onSearchTermChange(e.target.value)
+        }
         className="mb-2"
       />
-      <Button 
-        variant="contained" 
-        color="primary" 
+      <Button
+        variant="contained"
+        color="primary"
         onClick={onSearch}
         className="w-full"
       >
@@ -30,4 +36,4 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchTerm, onSearch
       </Button>
     </div>
   );
-}
+};

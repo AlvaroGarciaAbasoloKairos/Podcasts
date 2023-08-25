@@ -1,1 +1,1 @@
-export { useViewPodcasts } from './useViewPodcasts'
+export { useViewPodcasts } from './useViewPodcasts';

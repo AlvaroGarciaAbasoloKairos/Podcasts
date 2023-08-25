@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
+import React, { useState, useEffect } from 'react';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   ListItem,
   ListItemText,
   ListItemAvatar,
   IconButton,
-} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import { PlayArrow, Pause } from "@mui/icons-material";
-import { HeaderSearch } from "../../components/headerSearch";
-import { PodcastPlayer } from "../../components/podcastPlayer";
+} from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import { PlayArrow, Pause } from '@mui/icons-material';
+import { HeaderSearch } from '../../components/headerSearch';
+import { PodcastPlayer } from '../../components/podcastPlayer';
 
 interface Podcast {
   trackId: number;
@@ -41,7 +41,7 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
   isPlaying,
   onPlayPause,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const location = useLocation();
   const passedSearchTerm = location.state?.searchTerm;
   const navigate = useNavigate();
@@ -144,13 +144,13 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
           podcast={podcasts[selectedPodcastIndex]}
           onNext={() =>
             setSelectedPodcastIndex(
-              (prevIndex) => ((prevIndex ?? 0) + 1) % podcasts.length
+              (prevIndex) => ((prevIndex ?? 0) + 1) % podcasts.length,
             )
           }
           onPrevious={() =>
             setSelectedPodcastIndex(
               (prevIndex) =>
-                ((prevIndex ?? 0) - 1 + podcasts.length) % podcasts.length
+                ((prevIndex ?? 0) - 1 + podcasts.length) % podcasts.length,
             )
           }
           selectedPodcastIndex={selectedPodcastIndex}

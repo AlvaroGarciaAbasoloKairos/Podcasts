@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { PodcastSearch } from "./pages/podcastSearch";
-import { PodcastView } from "./pages/podcastView";
-import { useViewPodcasts } from "../src/hooks";
+import { useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { PodcastSearch } from './pages/podcastSearch';
+import { PodcastView } from './pages/podcastView';
+import { useViewPodcasts } from '../src/hooks';
 
 function App() {
   const [selectedPodcastIndex, setSelectedPodcastIndex] = useState<
@@ -10,13 +10,13 @@ function App() {
   >(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const { podcasts, loading, error, search } = useViewPodcasts();
-  
+
   const handlePlayPause = () => {
     setIsPlaying((prevIsPlaying) => !prevIsPlaying);
   };
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       element: (
         <PodcastView
           selectedPodcastIndex={selectedPodcastIndex}
@@ -32,7 +32,7 @@ function App() {
       ),
     },
     {
-      path: "/podcast/:podcastId",
+      path: '/podcast/:podcastId',
       element: (
         <PodcastSearch
           selectedPodcastIndex={selectedPodcastIndex}
@@ -43,7 +43,7 @@ function App() {
           search={search}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
-    onPlayPause={handlePlayPause}
+          onPlayPause={handlePlayPause}
         />
       ),
     },

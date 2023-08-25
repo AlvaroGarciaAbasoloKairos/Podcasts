@@ -20,4 +20,4 @@ export const useViewPodcasts = () => {
   }, []);
 
   return { podcasts, loading, error, search };
-}
+};

@@ -1,1 +1,1 @@
-export { PodcastPlayer } from './PodcastPlayer'
+export { PodcastPlayer } from './PodcastPlayer';

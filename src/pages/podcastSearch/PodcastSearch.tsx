@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   ListItem,
   ListItemText,
   ListItemAvatar,
   IconButton,
-} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import { PlayArrow, Pause } from "@mui/icons-material";
-import { HeaderSearch } from "../../components/headerSearch";
-import { PodcastPlayer } from "../../components/podcastPlayer";
+} from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import { PlayArrow, Pause } from '@mui/icons-material';
+import { HeaderSearch } from '../../components/headerSearch';
+import { PodcastPlayer } from '../../components/podcastPlayer';
 
 interface Podcast {
   trackId: number;
@@ -41,16 +41,16 @@ export function PodcastSearch({
   isPlaying,
   onPlayPause,
 }: PodcastSearchProps) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const location = useLocation();
   const selectedPodcast = location.state?.podcast;
   const navigate = useNavigate();
 
-  console.log("selectedPodcast", selectedPodcast);
+  console.log('selectedPodcast', selectedPodcast);
 
   const handleSearch = () => {
     if (searchTerm) {
-      navigate("/", { state: { searchTerm } });
+      navigate('/', { state: { searchTerm } });
       search(searchTerm);
     }
   };
@@ -70,7 +70,9 @@ export function PodcastSearch({
           <IconButton
             onClick={() => {
               setSelectedPodcastIndex(
-                podcasts.findIndex((p) => p.trackId === selectedPodcast.trackId)
+                podcasts.findIndex(
+                  (p) => p.trackId === selectedPodcast.trackId,
+                ),
               );
               onPlayPause();
             }}
@@ -78,7 +80,7 @@ export function PodcastSearch({
             {isPlaying &&
             selectedPodcastIndex ===
               podcasts.findIndex(
-                (p) => p.trackId === selectedPodcast.trackId
+                (p) => p.trackId === selectedPodcast.trackId,
               ) ? (
               <Pause />
             ) : (
@@ -106,13 +108,13 @@ export function PodcastSearch({
           podcast={selectedPodcast}
           onNext={() =>
             setSelectedPodcastIndex(
-              (prevIndex) => ((prevIndex ?? 0) + 1) % podcasts.length
+              (prevIndex) => ((prevIndex ?? 0) + 1) % podcasts.length,
             )
           }
           onPrevious={() =>
             setSelectedPodcastIndex(
               (prevIndex) =>
-                ((prevIndex ?? 0) - 1 + podcasts.length) % podcasts.length
+                ((prevIndex ?? 0) - 1 + podcasts.length) % podcasts.length,
             )
           }
           selectedPodcastIndex={selectedPodcastIndex}

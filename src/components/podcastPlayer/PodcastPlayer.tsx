@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { IconButton, Slider } from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import { IconButton, Slider } from '@mui/material';
 import {
   PlayArrow,
   Pause,
@@ -7,8 +7,8 @@ import {
   SkipNext,
   VolumeUp,
   Repeat as RepeatIcon,
-} from "@mui/icons-material";
-import { getPodcastFeed } from "../../services";
+} from '@mui/icons-material';
+import { getPodcastFeed } from '../../services';
 
 interface Podcast {
   artworkUrl100: string;
@@ -43,11 +43,11 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
     const fetchEpisodes = async () => {
       try {
         const eps = (await getPodcastFeed(podcast.feedUrl)).filter(
-          (e): e is string => e !== null
+          (e): e is string => e !== null,
         );
         setCurrentEpisode(eps[0] || null);
       } catch (error) {
-        console.error("Error fetching episodes:", error);
+        console.error('Error fetching episodes:', error);
       }
     };
 
@@ -58,7 +58,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
     if (audio.readyState === 4) {
       if (isPlaying) {
         audio.play().catch((error) => {
-          console.error("La reproducción falló.", error);
+          console.error('La reproducción falló.', error);
         });
       } else {
         audio.pause();
@@ -72,7 +72,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
       audio.load();
       if (isPlaying) {
         audio.play().catch((error) => {
-          console.error("La reproducción falló.", error);
+          console.error('La reproducción falló.', error);
         });
       }
     }
@@ -108,7 +108,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
         </IconButton>
         <IconButton onClick={() => setIsRepeating(!isRepeating)}>
           {isRepeating ? (
-            <RepeatIcon style={{ color: "green" }} />
+            <RepeatIcon style={{ color: 'green' }} />
           ) : (
             <RepeatIcon />
           )}
