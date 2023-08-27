@@ -2,13 +2,15 @@ import axios from 'axios';
 
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
-export const getPodcastFeed = async (feedUrl: string) => {
+export const getPodcastDescription = async (feedUrl: string) => {
   try {
     const response = await axios.get(`${CORS_PROXY}${feedUrl}`);
-    const data = await response.data;
-    const episodes = parseXMLToEpisodes(data);
-    
-    return episodes;
+    const xmlData = response.data;
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlData, 'text/xml');
+
+    return xmlDoc.querySelector('description')?.textContent ?? '';
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403) {
@@ -18,7 +20,7 @@ export const getPodcastFeed = async (feedUrl: string) => {
         console.error('Error: Has alcanzado el límite de solicitudes para CORS Anywhere.');
         throw new Error('Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
       } else {
-        console.error('Error fetching podcast feed:', error.message);
+        console.error('Error fetching podcast description:', error.message);
         throw error;
       }
     } else {
@@ -26,23 +28,4 @@ export const getPodcastFeed = async (feedUrl: string) => {
       throw new Error('Se produjo un error desconocido.');
     }
   }
-};
-
-const parseXMLToEpisodes = (xmlData: string) => {
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xmlData, 'text/xml');
-
-  const items = xmlDoc.getElementsByTagName('item');
-  const episodes = [];
-
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-
-    const enclosure = item.getElementsByTagName('enclosure')[0];
-    if (enclosure) {
-      const audioUrl = enclosure.getAttribute('url');
-      episodes.push(audioUrl);
-    }
-  }
-  return episodes;
 };

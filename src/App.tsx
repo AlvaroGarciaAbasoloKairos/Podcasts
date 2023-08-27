@@ -18,22 +18,6 @@ function App() {
     {
       path: '/',
       element: (
-        <PodcastView
-          selectedPodcastIndex={selectedPodcastIndex}
-          setSelectedPodcastIndex={setSelectedPodcastIndex}
-          podcasts={podcasts}
-          loading={loading}
-          error={error}
-          search={search}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          onPlayPause={handlePlayPause}
-        />
-      ),
-    },
-    {
-      path: '/podcast/:podcastId',
-      element: (
         <PodcastSearch
           selectedPodcastIndex={selectedPodcastIndex}
           setSelectedPodcastIndex={setSelectedPodcastIndex}
@@ -45,6 +29,23 @@ function App() {
           setIsPlaying={setIsPlaying}
           onPlayPause={handlePlayPause}
         />
+   
+      ),
+    },
+    {
+      path: '/podcast/:podcastId',
+      element: (
+        <PodcastView
+        selectedPodcastIndex={selectedPodcastIndex}
+        setSelectedPodcastIndex={setSelectedPodcastIndex}
+        podcasts={podcasts}
+        loading={loading}
+        error={error}
+        search={search}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        onPlayPause={handlePlayPause}
+      />
       ),
     },
   ]);
