@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const LOOKUP_URL = 'https://itunes.apple.com/lookup';
-const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+const CORS_PROXY = 'https://corsproxy.io/?';
 
 export const getEpisodes = async (podcastId: number, limit: number = 20) => {
   try {

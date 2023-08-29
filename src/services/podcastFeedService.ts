@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+const CORS_PROXY = 'https://corsproxy.io/?';
 
 export const getPodcastFeed = async (feedUrl: string) => {
   try {

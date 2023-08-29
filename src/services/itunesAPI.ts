@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ITUNES_URL = 'https://itunes.apple.com/search';
-const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+const CORS_PROXY = 'https://corsproxy.io/?';
 
 export const searchPodcasts = async (term: string, limit: number = 5) => {
   try {
