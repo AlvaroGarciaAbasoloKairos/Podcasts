@@ -1,51 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { IconButton } from '@mui/material';
-import Table from '@mui/material/Table';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableBody from '@mui/material/TableBody';
-import Avatar from '@mui/material/Avatar';
-import { HeaderSearch } from '../../components/headerSearch';
-import { PodcastPlayer } from '../../components/podcastPlayer';
-import { timeSince, truncateWords } from '../../lib';
+import {
+  IconButton,
+  Avatar,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableBody,
+  Table,
+} from '@mui/material';
+import { HeaderSearch, SortButton } from '../../components';
+import { timeSince, truncateWords, removeHtmlTags } from '../../lib';
 import { getPodcastDescription } from '../../services';
-import { removeHtmlTags } from '../../lib';
+import { Podcast } from '../../lib/types';
 
-interface Podcast {
-  trackId: number;
-  artworkUrl100: string;
-  collectionName: string;
-  artistName: string;
-  feedUrl: string;
-  releaseDate: string;
-}
 interface PodcastSearchProps {
   selectedPodcastIndex: number | null;
   setSelectedPodcastIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  isPlaying: boolean;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  onPlayPause: (type: 'podcast' | 'episode') => void;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   podcasts: Podcast[];
   loading: boolean;
   error: Error | null;
   search: (term: string, limit?: number) => Promise<void>;
-  isPlaying: boolean;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
-  onPlayPause: () => void;
+  setPodcasts: React.Dispatch<React.SetStateAction<Podcast[]>>;
 }
 
 export const PodcastSearch: React.FC<PodcastSearchProps> = ({
   selectedPodcastIndex,
   setSelectedPodcastIndex,
+  isPlaying,
+  onPlayPause,
+  setIsPlaying,
+  searchTerm,
+  setSearchTerm,
   podcasts,
   loading,
   error,
   search,
-  isPlaying,
-  onPlayPause,
+  setPodcasts,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
   const location = useLocation();
   const passedSearchTerm = location.state?.searchTerm;
+  const passedSelectedPodcastIndex = location.state?.selectedPodcastIndex;
   const navigate = useNavigate();
   const [descriptions, setDescriptions] = useState<Map<number, string>>(new Map());
 
@@ -60,30 +60,30 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
     });
     setSelectedPodcastIndex(podcasts.indexOf(podcast));
     if (isPlaying) {
-      onPlayPause();
+      onPlayPause('podcast');
     }
-    onPlayPause();
+    onPlayPause('podcast');
   };
 
   const handleIconButtonClick = (index: number) => {
     if (selectedPodcastIndex === index) {
-      onPlayPause();
+      onPlayPause('podcast');
     } else {
       setSelectedPodcastIndex(index);
       if (!isPlaying) {
-        onPlayPause();
+        onPlayPause('podcast');
       }
     }
   };
 
-  const handleNext = () => {
-    setSelectedPodcastIndex((prevIndex) => ((prevIndex ?? 0) + 1) % podcasts.length);
-  };
-
-  const handlePrevious = () => {
-    setSelectedPodcastIndex(
-      (prevIndex) => ((prevIndex ?? 0) - 1 + podcasts.length) % podcasts.length,
-    );
+  const sortPodcasts = (order: 'asc' | 'desc') => {
+    const sortedPodcasts = [...podcasts].sort((a, b) => {
+      if (order === 'asc') {
+        return a.collectionName.localeCompare(b.collectionName);
+      }
+      return b.collectionName.localeCompare(a.collectionName);
+    });
+    setPodcasts(sortedPodcasts);
   };
 
   useEffect(() => {
@@ -91,10 +91,7 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
       setSearchTerm(passedSearchTerm);
       search(passedSearchTerm);
     }
-  }, [passedSearchTerm, search]);
-
-  console.log('podcasts', podcasts); //<--------------------------------
-  console.log('passedSearchTerm', passedSearchTerm); //<--------------------------------
+  }, [passedSearchTerm, search, setSearchTerm]);
 
   useEffect(() => {
     const fetchDescriptions = async () => {
@@ -109,9 +106,18 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
     fetchDescriptions();
   }, [podcasts]);
 
+  useEffect(() => {
+    if (passedSearchTerm) {
+      setSearchTerm(passedSearchTerm);
+    }
+    if (typeof passedSelectedPodcastIndex === 'number') {
+      setSelectedPodcastIndex(passedSelectedPodcastIndex);
+    }
+  }, [passedSearchTerm, passedSelectedPodcastIndex, setSearchTerm, setSelectedPodcastIndex]);
+
   return (
     <>
-      <div className="pt-30 mb-114 flex flex-col items-center w-screen">
+      <div className="pt-30 mb-34 flex flex-col items-center w-screen">
         <HeaderSearch
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
@@ -119,9 +125,26 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
         />
       </div>
 
+      <div className="flex justify-center items-center mb-5">
+        <div className="w-832">
+          <div className="flex items-center justify-end">
+            <img
+              src="images/search.svg"
+              alt="Search Icon"
+              className="w-4 h-4 mr-5 text-custom-white"
+            />
+            <span className="font-quicksand text-white text-left text-16 font-normal leading-normal h-20">
+              Order by
+            </span>
+            <SortButton onSortChange={sortPodcasts} />
+          </div>
+        </div>
+      </div>
+
       {error && <p className="text-red-500">Error: {error.message}</p>}
+
       <div className="flex justify-center">
-        <Table className="w-832 border-b border-transparent-white-03">
+        <Table className="w-832  border-b border-transparent-white-03">
           <TableHead>
             <TableRow>
               <TableCell className="p-0 h-10 text-custom-white-transparent font-quicksand font-600 text-16 leading-normal border-b border-transparent-white-03 -mt-1 tracking-normal text-left">
@@ -161,7 +184,7 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
                     )}
                   </IconButton>
                 </TableCell>
-                <TableCell className=" p-0 h-20 border-b border-transparent-white-03">
+                <TableCell className="h-20 p-0  border-b border-transparent-white-03">
                   <div className="flex items-center">
                     <Avatar
                       src={podcast.artworkUrl100}
@@ -189,12 +212,12 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="p-0 h-20 text-custom-white-transparent font-quicksand font-500 text-16 leading-normal no-underline truncate w-210 border-b border-transparent-white-03">
+                <TableCell className="p-0 h-20  text-custom-white-transparent font-quicksand font-500 text-16 leading-normal no-underline truncate w-210 border-b border-transparent-white-03">
                   {removeHtmlTags(
                     truncateWords(descriptions.get(podcast.trackId) || 'Loading...', 5),
                   )}
                 </TableCell>
-                <TableCell className="p-0 h-20  text-custom-white-transparent font-quicksand font-500 text-16 leading-normal border-b border-transparent-white-03">
+                <TableCell className="p-0 h-20 text-custom-white-transparent font-quicksand font-500 text-16 leading-normal border-b border-transparent-white-03">
                   {timeSince(podcast.releaseDate)}
                 </TableCell>
               </TableRow>
@@ -202,18 +225,6 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
           </TableBody>
         </Table>
       </div>
-      {selectedPodcastIndex !== null && (
-        <PodcastPlayer
-          podcast={podcasts[selectedPodcastIndex]}
-          onNext={handleNext}
-          onPrevious={handlePrevious}
-          selectedPodcastIndex={selectedPodcastIndex}
-          setSelectedPodcastIndex={setSelectedPodcastIndex}
-          podcasts={podcasts}
-          isPlaying={isPlaying}
-          onPlayPause={onPlayPause}
-        />
-      )}
     </>
   );
 };

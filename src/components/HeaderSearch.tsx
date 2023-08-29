@@ -1,4 +1,4 @@
-import React from 'react';
+import { IconButton, InputBase } from '@mui/material';
 
 interface HeaderSearchProps {
   searchTerm: string;
@@ -16,23 +16,32 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({
       onSearch();
     }
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchTermChange(e.target.value);
+  };
+
   return (
     <div className="relative flex-grow">
-      <input
+      <InputBase
         id="searchTerm"
         placeholder="podcast"
         value={searchTerm}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onSearchTermChange(e.target.value)}
+        onChange={handleInputChange}
         className="search-input border-none w-822 h-50 pl-14 pr-5 py-0 bg-custom-black1A rounded-15 text-white focus:outline-none placeholder-custom-white-transparent font-quicksand text-16 font-normal"
         autoComplete="off"
         onKeyDown={handleKeyDown}
+        startAdornment={
+          <IconButton
+            onClick={onSearch}
+            className="absolute left-5 top-1/2 transform -translate-y-1/2"
+            size="small"
+            edge="start"
+          >
+             <img src="/images/search-21.svg" alt="Search" className="text-custom-white h-5 w-5" />
+          </IconButton>
+        }
       />
-      <button
-        onClick={onSearch}
-        className="bg-transparent border-none absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5"
-      >
-        <img src="/search-21.svg" alt="Search Icon" className="w-5 h-5 fill-white" />
-      </button>
     </div>
   );
 };

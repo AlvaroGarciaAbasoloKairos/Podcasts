@@ -10,9 +10,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'quicksand': ['Quicksand'],
+        'quicksand':'Quicksand',
       },
       fontSize: {
+        '32': '32px',
         '16': '16px',
         '14': '14px',
       },
@@ -22,6 +23,7 @@ module.exports = {
       },
       lineHeight: {
         'normal': 'normal',
+        '40':'40px'
       },
       colors: {
         'custom': {
@@ -38,22 +40,28 @@ module.exports = {
         },
       },
       width: {
+        '832': '832px',
+        '826': '826px',
         '822': '822px',
-        '98': '98px',
+        '757': '757px',
         '210': '210px',
+        '127': '127px',
+        '98': '98px',
+        '60': '60px',
+        '50': '50px',
+        '45': '45px',
+        '30': '30px',
         '15': '15px',
         '11.25': '11.25px',
-        '45': '45px',
-        '30': '30px',
-        '832': '832px',
-        '50': '50px',
-
+        '9.88': '9.88px',
       },
       height: {
+        '280': '280px',
+        '60': '60px',
         '50': '50px',
-        '15': '15px',
         '45': '45px',
         '30': '30px',
+        '15': '15px',
       },
       flexShrink: {
         '0': 0,
@@ -70,10 +78,13 @@ module.exports = {
         '3.75': '3.75px',
       },
       margin: {
-        '114': '114px',
+        '42': '42px',
+        '34': '34px',
     },
       spacing: {
         '7.5': '7.5px',
+        '20': '20px',
+        '705': '705px',
       },
       placeholderColor: {
         'white-transparent': 'rgba(255, 255, 255, 0.40)',
@@ -81,6 +92,10 @@ module.exports = {
       borderColor: {
         'transparent-white-03': 'rgba(255, 255, 255, 0.03)',
       },  
+      letterSpacing: {
+        'tightest': '-0.02em'
+      },
+      
     },
   },
   plugins: [

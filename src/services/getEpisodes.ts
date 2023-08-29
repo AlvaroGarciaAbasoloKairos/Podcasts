@@ -1,19 +1,19 @@
 import axios from 'axios';
 
-const ITUNES_URL = 'https://itunes.apple.com/search';
+const LOOKUP_URL = 'https://itunes.apple.com/lookup';
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
-export const searchPodcasts = async (term: string, limit: number = 5) => {
+export const getEpisodes = async (podcastId: number, limit: number = 20) => {
   try {
     const response = await axios.get(
-      `${CORS_PROXY}${ITUNES_URL}?term=${term}&entity=podcast&limit=${limit}`,
+      `${CORS_PROXY}${LOOKUP_URL}?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=${limit}`
     );
-    console.log('response', response);
-    return response.data.results;
+    return response.data.results.slice(1);
   } catch (error) {
     handleErrors(error);
   }
 };
+
 
 const handleErrors = (error: any) => {
   if (axios.isAxiosError(error)) {

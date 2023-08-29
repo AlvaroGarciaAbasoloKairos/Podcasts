@@ -1,9 +1,11 @@
 import { useState, useCallback } from 'react';
 import { searchPodcasts } from '../services';
+import { Podcast } from '../lib/types';
 
 export const useViewPodcasts = () => {
   const [loading, setLoading] = useState(false);
-  const [podcasts, setPodcasts] = useState([]);
+  const [podcasts, setPodcasts] = useState<Podcast[]>([]);
+
   const [error, setError] = useState<Error | null>(null);
 
   const search = useCallback(async (term: string, limit: number = 5) => {
@@ -19,5 +21,5 @@ export const useViewPodcasts = () => {
     }
   }, []);
 
-  return { podcasts, loading, error, search };
+  return { podcasts, loading, error, search, setPodcasts };
 };
