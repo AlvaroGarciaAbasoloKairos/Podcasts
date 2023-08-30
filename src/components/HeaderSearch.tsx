@@ -4,16 +4,19 @@ interface HeaderSearchProps {
   searchTerm: string;
   onSearchTermChange: (term: string) => void;
   onSearch: () => void;
+  className?: string;
 }
 
 export const HeaderSearch: React.FC<HeaderSearchProps> = ({
   searchTerm,
   onSearchTermChange,
   onSearch,
+  className,
 }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onSearch();
+      onSearchTermChange('');
     }
   };
 
@@ -22,13 +25,13 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({
   };
 
   return (
-    <div className="relative flex-grow">
+    <div className={`relative flex-grow ${className}`}>
       <InputBase
         id="searchTerm"
         placeholder="podcast"
         value={searchTerm}
         onChange={handleInputChange}
-        className="search-input border-none w-822 h-50 pl-14 pr-5 py-0 bg-custom-black1A rounded-15 text-white focus:outline-none placeholder-custom-white-transparent font-quicksand text-16 font-normal"
+        className="search-input w-full  border-none h-50 pl-14 pr-5 py-0 bg-custom-black1A placeholder-white-transparent rounded-15 text-white focus:outline-none  font-quicksand text-16 font-normal"
         autoComplete="off"
         onKeyDown={handleKeyDown}
         startAdornment={
@@ -38,7 +41,7 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({
             size="small"
             edge="start"
           >
-             <img src="/images/search-21.svg" alt="Search" className="text-custom-white h-5 w-5" />
+            <img src="/images/search-21.svg" alt="Search" className="text-custom-white h-5 w-5" />
           </IconButton>
         }
       />

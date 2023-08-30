@@ -10,7 +10,7 @@ import {
   Table,
 } from '@mui/material';
 import { HeaderSearch, SortButton } from '../../components';
-import { timeSince, truncateWords, removeHtmlTags } from '../../lib';
+import { timeSince, removeHtmlTags } from '../../lib';
 import { getPodcastDescription } from '../../services';
 import { Podcast } from '../../lib/types';
 
@@ -66,16 +66,20 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
   };
 
   const handleIconButtonClick = (index: number) => {
+    // Si es el mismo podcast, solo pausarlo
     if (selectedPodcastIndex === index) {
       onPlayPause('podcast');
-    } else {
-      setSelectedPodcastIndex(index);
-      if (!isPlaying) {
-        onPlayPause('podcast');
-      }
+      return;
     }
+    // Si hay un podcast reproduciéndose, pausarlo
+    if (isPlaying) {
+      onPlayPause('podcast');
+    }
+    // Seleccionar el nuevo podcast y empezar a reproducirlo
+    setSelectedPodcastIndex(index);
+    onPlayPause('podcast');
   };
-
+  
   const sortPodcasts = (order: 'asc' | 'desc') => {
     const sortedPodcasts = [...podcasts].sort((a, b) => {
       if (order === 'asc') {
@@ -122,10 +126,11 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
           onSearch={handleSearch}
+          className="w-[822px]"
         />
       </div>
 
-      <div className="flex justify-center items-center mb-5">
+      <div className="flex justify-center items-center mb-5 w-screen">
         <div className="w-832">
           <div className="flex items-center justify-end">
             <img
@@ -143,20 +148,20 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
 
       {error && <p className="text-red-500">Error: {error.message}</p>}
 
-      <div className="flex justify-center">
+      <div className="flex justify-center w-screen">
         <Table className="w-832  border-b border-transparent-white-03">
           <TableHead>
             <TableRow>
-              <TableCell className="p-0 h-10 text-custom-white-transparent font-quicksand font-600 text-16 leading-normal border-b border-transparent-white-03 -mt-1 tracking-normal text-left">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-16 leading-normal border-b border-transparent-white-03 -mt-1 tracking-normal text-left">
                 #
               </TableCell>
-              <TableCell className="p-0 h-10 text-custom-white-transparent font-quicksand font-600 text-14 leading-normal border-b border-transparent-white-03">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-14 leading-normal border-b border-transparent-white-03">
                 Name
               </TableCell>
-              <TableCell className="p-0 h-10 text-custom-white-transparent font-quicksand font-600 text-14 leading-normal w-98 border-b border-transparent-white-03">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-14 leading-normal w-98 border-b border-transparent-white-03">
                 Description
               </TableCell>
-              <TableCell className="p-0 h-10 text-custom-white-transparent font-quicksand font-600 text-14 leading-normal w-98 border-b border-transparent-white-03">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-14 leading-normal w-98 border-b border-transparent-white-03">
                 Released
               </TableCell>
             </TableRow>
@@ -164,9 +169,9 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
 
           <TableBody>
             {podcasts.map((podcast: Podcast, index: number) => (
-              <TableRow key={podcast.trackId}>
-                <TableCell className="p-0 h-20 border-b border-transparent-white-03">
-                  <IconButton onClick={() => handleIconButtonClick(index)}>
+              <TableRow key={podcast.trackId} >
+                <TableCell className="p-0 h-80 w-50 border-b border-transparent-white-03">
+                  <IconButton onClick={() => handleIconButtonClick(index)} className="pl-0">
                     {selectedPodcastIndex === index && isPlaying ? (
                       <div className="bg-custom-blue5C rounded-71 w-30 h-30 flex items-center justify-center px-15 py-15">
                         <img
@@ -176,48 +181,47 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
                         />
                       </div>
                     ) : (
-                      <img
-                        src="/images/play-1.svg"
-                        alt="Play"
-                        className="w-15 h-15 flex-shrink-0"
-                      />
+                      <div className="pl-2">
+                        <img
+                          src="/images/play-1.svg"
+                          alt="Play"
+                          className="w-15 h-15 flex-shrink-0"
+                        />
+                      </div>
                     )}
                   </IconButton>
                 </TableCell>
-                <TableCell className="h-20 p-0  border-b border-transparent-white-03">
-                  <div className="flex items-center">
-                    <Avatar
-                      src={podcast.artworkUrl100}
-                      alt={podcast.collectionName}
-                      className="w-45 h-45 flex-shrink-0 rounded-8 bg-custom-black1A bg-cover bg-no-repeat"
-                    />
-                    <div className="ml-2">
-                      <Link
-                        to={`/podcast/${podcast.trackId}`}
-                        state={{ podcast }}
-                        onClick={() => handlePodcastClick(podcast)}
-                        className="text-custom-white font-quicksand font-500 text-16 leading-normal no-underline "
-                      >
-                        {podcast.collectionName}
-                      </Link>
-                      <br />
-                      <Link
-                        to={`/podcast/${podcast.trackId}`}
-                        state={{ podcast }}
-                        onClick={() => handlePodcastClick(podcast)}
-                        className="text-custom-white-transparent font-quicksand font-500 text-14 leading-normal no-underline"
-                      >
-                        {podcast.artistName}
-                      </Link>
-                    </div>
+                <TableCell className="p-0 w-45 h-80 flex items-center border-b border-transparent-white-03">
+                  <Avatar
+                    src={podcast.artworkUrl100}
+                    alt={podcast.collectionName}
+                    className="w-45 h-45 rounded-8 bg-custom-black1A bg-cover bg-no-repeat"
+                  />
+                  <div className="ml-5 w-198 h-38 flex flex-col">
+                    <Link
+                      to={`/podcast/${podcast.trackId}`}
+                      state={{ podcast }}
+                      onClick={() => handlePodcastClick(podcast)}
+                      className="text-custom-white font-quicksand font-500 text-16 leading-normal no-underline truncate "
+                    >
+                      {podcast.collectionName}
+                    </Link>
+                    <Link
+                      to={`/podcast/${podcast.trackId}`}
+                      state={{ podcast }}
+                      onClick={() => handlePodcastClick(podcast)}
+                      className="text-custom-whiteTransparent font-quicksand font-500 text-14 leading-normal no-underline truncate "
+                    >
+                      {podcast.artistName}
+                    </Link>
                   </div>
                 </TableCell>
-                <TableCell className="p-0 h-20  text-custom-white-transparent font-quicksand font-500 text-16 leading-normal no-underline truncate w-210 border-b border-transparent-white-03">
-                  {removeHtmlTags(
-                    truncateWords(descriptions.get(podcast.trackId) || 'Loading...', 5),
-                  )}
+                <TableCell className="p-0 border-transparent-white-03 w-330 ">
+                  <div className="w-210 h-10  text-custom-whiteTransparent font-quicksand font-500 text-16 leading-normal no-underline truncate border-b ">
+                    {removeHtmlTags(descriptions.get(podcast.trackId) || 'Loading...')}
+                  </div>
                 </TableCell>
-                <TableCell className="p-0 h-20 text-custom-white-transparent font-quicksand font-500 text-16 leading-normal border-b border-transparent-white-03">
+                <TableCell className="p-0 w-92 h-5 text-custom-whiteTransparent font-quicksand font-500 text-16 leading-normal border-b border-transparent-white-03">
                   {timeSince(podcast.releaseDate)}
                 </TableCell>
               </TableRow>

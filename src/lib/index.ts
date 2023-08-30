@@ -1,1 +1,1 @@
-export { timeSince, truncateWords, removeHtmlTags, formatTime } from './utils';
+export { timeSince, removeHtmlTags, formatTime } from './utils';

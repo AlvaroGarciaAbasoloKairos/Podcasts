@@ -8,7 +8,6 @@ export const searchPodcasts = async (term: string, limit: number = 5) => {
     const response = await axios.get(
       `${CORS_PROXY}${ITUNES_URL}?term=${term}&entity=podcast&limit=${limit}`,
     );
-    console.log('response', response);
     return response.data.results;
   } catch (error) {
     handleErrors(error);

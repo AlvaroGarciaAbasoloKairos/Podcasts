@@ -4,33 +4,43 @@ import { PodcastSearch } from './pages/podcastSearch';
 import { PodcastView } from './pages/podcastView';
 import { useViewEpisodes, useViewPodcasts } from './hooks';
 import { Episode } from './lib/types';
-import { PodcastPlayer, EpisodePlayer } from './components';
+import { PodcastPlayer } from './components';
 
 function App() {
   const [selectedPodcastIndex, setSelectedPodcastIndex] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [playingType, setPlayingType] = useState<'podcast' | 'episode' | null>(null);
   const [selectedEpisodeIndex, setSelectedEpisodeIndex] = useState<number | null>(null);
-  const { episodes, fetchEpisodes, episodesLoading, episodesError, setEpisodes } = useViewEpisodes<Episode>();
+  const { episodes, fetchEpisodes, episodesLoading, episodesError, setEpisodes } =
+    useViewEpisodes<Episode>();
   const selectedEpisode = selectedEpisodeIndex !== null ? episodes[selectedEpisodeIndex] : null;
   const { podcasts, loading, error, search, setPodcasts } = useViewPodcasts();
-  const [playingType, setPlayingType] = useState<'podcast' | 'episode' | null>(null);
 
   const handlePlayPause = (type: 'podcast' | 'episode') => {
-    setIsPlaying((prevIsPlaying) => {
-      setPlayingType(prevIsPlaying ? null : type);
-      return !prevIsPlaying;
-    });
+    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+    if (!isPlaying) {
+      setPlayingType(type);
+    }
   };
-
   const handleNext = () => {
-    setSelectedPodcastIndex((prevIndex) => ((prevIndex ?? 0) + 1) % podcasts.length);
+    if (playingType === 'podcast') {
+      setSelectedPodcastIndex((prevIndex) => ((prevIndex ?? 0) + 1) % podcasts.length);
+    } else if (playingType === 'episode' && selectedEpisodeIndex !== null) {
+      setSelectedEpisodeIndex((prevIndex) => ((prevIndex ?? 0) + 1) % episodes.length);
+    }
   };
 
   const handlePrevious = () => {
-    setSelectedPodcastIndex(
-      (prevIndex) => ((prevIndex ?? 0) - 1 + podcasts.length) % podcasts.length,
-    );
+    if (playingType === 'podcast') {
+      setSelectedPodcastIndex(
+        (prevIndex) => ((prevIndex ?? 0) - 1 + podcasts.length) % podcasts.length,
+      );
+    } else if (playingType === 'episode' && selectedEpisodeIndex !== null) {
+      setSelectedEpisodeIndex(
+        (prevIndex) => ((prevIndex ?? 0) - 1 + episodes.length) % episodes.length,
+      );
+    }
   };
 
   const router = createBrowserRouter([
@@ -77,27 +87,20 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      {selectedPodcastIndex !== null && podcasts[selectedPodcastIndex] && (
+      {playingType && (
         <PodcastPlayer
-          podcast={podcasts[selectedPodcastIndex]}
-          onNext={handleNext}
-          onPrevious={handlePrevious}
-          selectedPodcastIndex={selectedPodcastIndex}
-          setSelectedPodcastIndex={setSelectedPodcastIndex}
-          podcasts={podcasts}
+          data={
+            playingType === 'podcast'
+              ? podcasts[selectedPodcastIndex!]
+              : episodes[selectedEpisodeIndex!]
+          }
+          onNext={playingType === 'podcast' ? handleNext : () => {}}
+          onPrevious={playingType === 'podcast' ? handlePrevious : () => {}}
           isPlaying={isPlaying}
           onPlayPause={handlePlayPause}
           playingType={playingType}
-        />
-      )}
-      {selectedEpisodeIndex !== null && (
-        <EpisodePlayer
-          episode={episodes[selectedEpisodeIndex]}
-          onNext={() => {}}
-          onPrevious={() => {}}
-          isPlaying={isPlaying}
-          onPlayPause={handlePlayPause}
-          playingType={playingType}
+          onEpisodeNext={handleNext}
+          onEpisodePrevious={handlePrevious}
         />
       )}
     </>

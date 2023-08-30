@@ -6,6 +6,7 @@ export interface Podcast {
   feedUrl: string;
   releaseDate: string;
   trackUrl:string;
+  trackTimeMillis:number;
 }
 
 export type PodcastData = {
@@ -22,7 +23,7 @@ export type PodcastData = {
     trackName:string;
     collectionName: string;
     episodeUrl:string;
-    
+    trackTimeMillis:number;
   }[];
 };
 
@@ -60,5 +61,5 @@ export interface Episode {
   image: string;
   author: string;
   enclosureUrl: string;
-  trackUrl:string
+  trackUrl:string;
 }
