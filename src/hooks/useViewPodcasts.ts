@@ -2,10 +2,16 @@ import { useState, useCallback } from 'react';
 import { searchPodcasts } from '../services';
 import { Podcast } from '../lib/types';
 
-export const useViewPodcasts = () => {
+interface UseViewPodcastsReturnType {
+  podcasts: Podcast[];
+  loading: boolean;
+  error: Error | null;
+  search: (term: string, limit?: number) => Promise<void>;
+  setPodcasts: React.Dispatch<React.SetStateAction<Podcast[]>>;
+}
+export const useViewPodcasts = (): UseViewPodcastsReturnType => {
   const [loading, setLoading] = useState(false);
   const [podcasts, setPodcasts] = useState<Podcast[]>([]);
-
   const [error, setError] = useState<Error | null>(null);
 
   const search = useCallback(async (term: string, limit: number = 5) => {

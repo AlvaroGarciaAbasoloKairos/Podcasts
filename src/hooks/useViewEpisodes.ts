@@ -1,7 +1,15 @@
 import { useState, useCallback } from 'react';
 import { getEpisodes } from '../services';
 
-export const useViewEpisodes = <T>() => {
+interface UseViewEpisodesReturnType<T> {
+  episodes: T[];
+  episodesLoading: boolean;
+  episodesError: Error | null;
+  fetchEpisodes: (podcastId: number, limit?: number) => Promise<void>;
+  setEpisodes: React.Dispatch<React.SetStateAction<T[]>>;
+}
+
+export const useViewEpisodes = <T>(): UseViewEpisodesReturnType<T> => {
   const [episodesLoading, setEpisodesLoading] = useState(false);
   const [episodes, setEpisodes] = useState<T[]>([]);
   const [episodesError, setEpisodesError] = useState<Error | null>(null);

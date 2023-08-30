@@ -75,6 +75,7 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
     }
   };
 
+
   const handleSearchTermChange = (term: string) => {
     setSearchTerm(term);
   };

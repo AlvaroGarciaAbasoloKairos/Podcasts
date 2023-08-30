@@ -15,7 +15,7 @@ function App() {
   const { episodes, fetchEpisodes, episodesLoading, episodesError, setEpisodes } =
     useViewEpisodes<Episode>();
   const selectedEpisode = selectedEpisodeIndex !== null ? episodes[selectedEpisodeIndex] : null;
-  const { podcasts, loading, error, search, setPodcasts } = useViewPodcasts();
+  const { podcasts, error, search, setPodcasts } = useViewPodcasts();
 
   const handlePlayPause = (type: 'podcast' | 'episode') => {
     setIsPlaying((prevIsPlaying) => !prevIsPlaying);
@@ -51,11 +51,9 @@ function App() {
           selectedPodcastIndex={selectedPodcastIndex}
           setSelectedPodcastIndex={setSelectedPodcastIndex}
           isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
           onPlayPause={handlePlayPause}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          loading={loading}
           error={error}
           search={search}
           podcasts={podcasts}

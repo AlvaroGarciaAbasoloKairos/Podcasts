@@ -18,12 +18,10 @@ interface PodcastSearchProps {
   selectedPodcastIndex: number | null;
   setSelectedPodcastIndex: React.Dispatch<React.SetStateAction<number | null>>;
   isPlaying: boolean;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   onPlayPause: (type: 'podcast' | 'episode') => void;
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   podcasts: Podcast[];
-  loading: boolean;
   error: Error | null;
   search: (term: string, limit?: number) => Promise<void>;
   setPodcasts: React.Dispatch<React.SetStateAction<Podcast[]>>;
@@ -34,11 +32,9 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
   setSelectedPodcastIndex,
   isPlaying,
   onPlayPause,
-  setIsPlaying,
   searchTerm,
   setSearchTerm,
   podcasts,
-  loading,
   error,
   search,
   setPodcasts,
@@ -66,16 +62,13 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
   };
 
   const handleIconButtonClick = (index: number) => {
-    // Si es el mismo podcast, solo pausarlo
     if (selectedPodcastIndex === index) {
       onPlayPause('podcast');
       return;
     }
-    // Si hay un podcast reproduciéndose, pausarlo
     if (isPlaying) {
       onPlayPause('podcast');
     }
-    // Seleccionar el nuevo podcast y empezar a reproducirlo
     setSelectedPodcastIndex(index);
     onPlayPause('podcast');
   };
