@@ -35,15 +35,16 @@ Esta aplicación cuenta con pruebas unitarias. Para ejecutar las pruebas:
 
 Este comando lanzará el test runner en modo interactivo. Podrás ver los resultados y el progreso de las pruebas en la consola.
 
-Características
-Buscador de Podcasts: Permite al usuario buscar podcasts.
-Detalle de Podcast: El usuario puede ver detalles de un podcast específico.
-API y servicios
-Se utiliza la iTunes Search API para obtener información de podcasts. Debido a restricciones CORS, se hace uso de un proxy 'https://corsproxy.io' para obtener datos.
+## Características
 
-Herramientas y tecnologías
-React
-TypeScript
-TailwindCSS
-Material-UI
-iTunes Search API
+- Buscador de Podcasts: Permite al usuario buscar podcasts.
+- Detalle de Podcast: El usuario puede ver detalles de un podcast específico.
+- API y servicios
+- Se utiliza la iTunes Search API para obtener información de podcasts. Debido a restricciones CORS, se hace uso de un proxy 'https://corsproxy.io' para obtener datos.
+
+## Herramientas y tecnologías
+- React
+- TypeScript
+- TailwindCSS
+- Material-UI
+- iTunes Search API
