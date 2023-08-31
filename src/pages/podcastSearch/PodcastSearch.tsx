@@ -112,7 +112,7 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
 
   return (
     <>
-      <div className="pt-30 mb-34 flex flex-col items-center w-screen">
+      <div className="pt-8 mb-9 flex flex-col items-center w-screen">
         <HeaderSearch
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
@@ -170,7 +170,7 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
                     )}
                   </IconButton>
                 </TableCell>
-                <TableCell className="p-0 w-11 h-80 flex items-center border-b border-transparent-white-03">
+                <TableCell className="p-0 w-11 h-20 flex items-center border-b border-transparent-white-03">
                   <Avatar
                     src={podcast.artworkUrl100}
                     alt={podcast.collectionName}

@@ -126,7 +126,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
     <div className="flex items-center bg-custom-black1A fixed bottom-0 w-full h-28">
       <div className="flex items-center space-x-4">
         <img src={artworkUrl} alt="Artwork" className="w-28 h-28 mr-1 rounded" />
-        <div className="w-277 h-10">
+        <div className="w-72 h-10">
           <h2 className="m-0 text-custom-white font-quicksand text-base font-medium truncate">
             {title}
           </h2>
@@ -135,7 +135,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
           </p>
         </div>
       </div>
-      <div className="flex items-center ml-59 space-x-2 w-831 h-12">
+      <div className="flex items-center ml-14 space-x-2 min-w-full h-12">
         <IconButton onClick={handleShuffleClick}>
           <img
             src="/images/shuffle-1.svg"
@@ -171,7 +171,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
         <Slider
           aria-label="Playback time"
           value={elapsedTimePercentage}
-          className="w-419 h-[5px] hide-thumb slider-white"
+          className="w-96 h-[5px] hide-thumb slider-white"
           onChange={(event, newValue) => {
             if (typeof newValue === 'number') {
               const newElapsedTime = (newValue / 100) * trackTimeMillis;

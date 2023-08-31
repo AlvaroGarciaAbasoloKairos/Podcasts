@@ -104,7 +104,7 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
 
   return (
     <>
-      <div className="pt-30 mb-114 flex flex-col items-center w-screen">
+      <div className="pt-8 mb-114 flex flex-col items-center w-screen">
         <div className="flex items-center">
           <IconButton
             onClick={handleNavigateHome}
@@ -122,19 +122,19 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
       </div>
       {
         <div className="flex justify-center items-center w-screen">
-          <div className="mt-42 mb-5 mx-auto">
+          <div className="mt-11 mb-5 mx-auto">
             <img
               src={imageUrl}
               alt={title}
-              className="w-822 h-280 rounded-2xl bg-cover bg-no-repeat object-cover"
+              className="min-w-full h-72 rounded-2xl bg-cover bg-no-repeat object-cover"
             />
-            <div className="flex justify-between items-center w-832 h-60 ">
+            <div className="flex justify-between items-center w-832 h-16 ">
               <IconButton
                 onClick={() => handleIconButtonClick(selectedEpisodeIndex)}
                 className="pl-0"
               >
                 {isPlaying ? (
-                  <div className="bg-custom-blue5C rounded-71 w-16 h-60 flex items-center justify-center">
+                  <div className="bg-custom-blue5C rounded-71 w-16 h-16 flex items-center justify-center">
                     <img src="/images/pause-1.svg" alt="Pause" className="w-6 h-6" />
                   </div>
                 ) : (
@@ -142,7 +142,7 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
                 )}
               </IconButton>
               <div className="flex justify-center items-center max-w-2xl">
-                <h1 className="whitespace-nowrap overflow-hidden text-overflow-ellipsis m-0 max-w-580 max-h-16 font-quicksand text-white text-2xl font-bold leading-normal tracking-tightest">
+                <h1 className="whitespace-nowrap overflow-hidden text-overflow-ellipsis m-0 max-w-580 max-h-16 font-quicksand text-white text-2xl font-bold leading-normal tracking-tight">
                   {title}
                 </h1>
                 <img src="/images/verify-1.svg" alt="Check images" className="ml-2" />
@@ -190,7 +190,7 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
           <TableBody>
             {episodes.map((episode, index) => (
               <TableRow key={index}>
-                <TableCell className="p-0 h-80 w-12  border-b border-transparent-white-03">
+                <TableCell className="p-0 h-20 w-12  border-b border-transparent-white-03">
                   <IconButton onClick={() => handleIconButtonClick(index)} className="pl-0">
                     {selectedEpisodeIndex === index && isPlaying ? (
                       <div className="bg-custom-blue5C rounded-71 w-8 h-8 flex items-center justify-center px-15 py-15">
@@ -207,7 +207,7 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
                     )}
                   </IconButton>
                 </TableCell>
-                <TableCell className="p-0 w-11 h-80 flex items-center border-b border-transparent-white-03">
+                <TableCell className="p-0 w-11 h-20 flex items-center border-b border-transparent-white-03">
                   <Avatar
                     src={episode.artworkUrl160}
                     alt={episode.trackName}

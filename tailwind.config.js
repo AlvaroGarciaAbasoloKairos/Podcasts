@@ -23,33 +23,12 @@ module.exports = {
       },
          width: {
         832: '832px',
-        831: '831px',
-        822: '822px',
-        757: '757px',
-        419: '419px',
-        277: '277px',
-      },
-      height: {
-        280: '280px',
-        80: '80px',
-        60: '60px',
       },
       borderRadius: {
         71: '71px',
       },
-      padding: {
-        30: '30px',
-      },
-      margin: {
-        59: '59px',
-        42: '42px',
-        34: '34px',
-      },
       borderColor: {
         'transparent-white-03': 'rgba(255, 255, 255, 0.03)',
-      },
-      letterSpacing: {
-        tightest: '-0.02em',
       },
     },
   },
