@@ -123,19 +123,19 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
   }, [audio]);
 
   return (
-    <div className="flex items-center bg-custom-black1A fixed bottom-0 w-full h-110">
+    <div className="flex items-center bg-custom-black1A fixed bottom-0 w-full h-28">
       <div className="flex items-center space-x-4">
-        <img src={artworkUrl} alt="Artwork" className="w-110 h-110 mr-1 rounded" />
+        <img src={artworkUrl} alt="Artwork" className="w-28 h-28 mr-1 rounded" />
         <div className="w-277 h-10">
-          <h2 className="m-0 text-custom-white font-quicksand text-16 font-500 truncate">
+          <h2 className="m-0 text-custom-white font-quicksand text-base font-medium truncate">
             {title}
           </h2>
-          <p className="m-0 text-custom-whiteTransparent font-quicksand text-16 font-500 truncate">
+          <p className="m-0 text-custom-whiteTransparent font-quicksand text-base font-medium truncate">
             {subtitle}
           </p>
         </div>
       </div>
-      <div className="flex items-center ml-59 space-x-2 w-831 h-50">
+      <div className="flex items-center ml-59 space-x-2 w-831 h-12">
         <IconButton onClick={handleShuffleClick}>
           <img
             src="/images/shuffle-1.svg"
@@ -148,16 +148,12 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
         </IconButton>
         <IconButton onClick={handlePlayPauseClick}>
           {isPlaying ? (
-            <div className="bg-custom-blue5C rounded-71 w-50 h-50 flex items-center justify-center px-15 py-15">
-              <img
-                src="/images/pause-1.svg"
-                alt="Pause"
-                className="w-18.75 h-18.75 flex-shrink-0"
-              />
+            <div className="bg-custom-blue5C rounded-71 w-12 h-12 flex items-center justify-center px-15 py-15">
+              <img src="/images/pause-1.svg" alt="Pause" className="w-5 h-5 shrink-0" />
             </div>
           ) : (
             <div className="pl-2">
-              <img src="/images/play-1.svg" alt="Play" className="w-18.75 h-18.75 flex-shrink-0" />
+              <img src="/images/play-1.svg" alt="Play" className="w-5 h-5 shrink-0" />
             </div>
           )}
         </IconButton>
@@ -195,7 +191,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
               setVolume(newValue / 100);
             }
           }}
-          className="w-100 h-[5px] hide-thumb slider-white"
+          className="w-24 h-[5px] hide-thumb slider-white"
         />
       </div>
     </div>

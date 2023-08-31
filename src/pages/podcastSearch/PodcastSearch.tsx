@@ -128,7 +128,7 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
               alt="Search Icon"
               className="w-4 h-4 mr-5 text-custom-white"
             />
-            <span className="font-quicksand text-white text-left text-16 font-normal leading-normal h-20">
+            <span className="font-quicksand text-white text-left text-base font-normal leading-normal h-5">
               Order by
             </span>
             <SortButton onSortChange={sortPodcasts} />
@@ -140,16 +140,16 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
         <Table className="w-832  border-b border-transparent-white-03">
           <TableHead>
             <TableRow>
-              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-16 leading-normal border-b border-transparent-white-03 -mt-1 tracking-normal text-left">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-semibold text-base leading-normal border-b border-transparent-white-03 -mt-1 tracking-normal text-left">
                 #
               </TableCell>
-              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-14 leading-normal border-b border-transparent-white-03">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-semibold text-sm leading-normal border-b border-transparent-white-03">
                 Name
               </TableCell>
-              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-14 leading-normal w-98 border-b border-transparent-white-03">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-semibold text-sm leading-normal w-24 border-b border-transparent-white-03">
                 Description
               </TableCell>
-              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-600 text-14 leading-normal w-98 border-b border-transparent-white-03">
+              <TableCell className="p-0 h-10 text-custom-whiteTransparent font-quicksand font-semibold text-sm leading-normal w-24 border-b border-transparent-white-03">
                 Released
               </TableCell>
             </TableRow>
@@ -157,39 +157,31 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
           <TableBody>
             {podcasts.map((podcast: Podcast, index: number) => (
               <TableRow key={podcast.trackId}>
-                <TableCell className="p-0 h-80 w-50 border-b border-transparent-white-03">
+                <TableCell className="p-0 h-5 w-12 border-b border-transparent-white-03">
                   <IconButton onClick={() => handleIconButtonClick(index)} className="pl-0">
                     {selectedPodcastIndex === index && isPlaying ? (
-                      <div className="bg-custom-blue5C rounded-71 w-30 h-30 flex items-center justify-center px-15 py-15">
-                        <img
-                          src="/images/pause-1.svg"
-                          alt="Pause"
-                          className="w-11.25 h-11.25 flex-shrink-0"
-                        />
+                      <div className="bg-custom-blue5C rounded-71 w-8 h-8 flex items-center justify-center px-15 py-15">
+                        <img src="/images/pause-1.svg" alt="Pause" className=" w-3 shrink-0" />
                       </div>
                     ) : (
                       <div className="pl-2">
-                        <img
-                          src="/images/play-1.svg"
-                          alt="Play"
-                          className="w-15 h-15 flex-shrink-0"
-                        />
+                        <img src="/images/play-1.svg" alt="Play" className="w-4 h-4 shrink-0" />
                       </div>
                     )}
                   </IconButton>
                 </TableCell>
-                <TableCell className="p-0 w-45 h-80 flex items-center border-b border-transparent-white-03">
+                <TableCell className="p-0 w-11 h-80 flex items-center border-b border-transparent-white-03">
                   <Avatar
                     src={podcast.artworkUrl100}
                     alt={podcast.collectionName}
-                    className="w-45 h-45 rounded-8 bg-custom-black1A bg-cover bg-no-repeat"
+                    className="w-11 h-11 rounded-lg bg-custom-black1A bg-cover bg-no-repeat"
                   />
-                  <div className="ml-5 w-198 h-38 flex flex-col">
+                  <div className="ml-5 w-48 h-10 flex flex-col">
                     <Link
                       to={`/podcast/${podcast.trackId}`}
                       state={{ podcast }}
                       onClick={() => handlePodcastClick(podcast)}
-                      className="text-custom-white font-quicksand font-500 text-16 leading-normal no-underline truncate "
+                      className="text-custom-white font-quicksand font-medium text-base leading-normal no-underline truncate "
                     >
                       {podcast.collectionName}
                     </Link>
@@ -197,18 +189,18 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
                       to={`/podcast/${podcast.trackId}`}
                       state={{ podcast }}
                       onClick={() => handlePodcastClick(podcast)}
-                      className="text-custom-whiteTransparent font-quicksand font-500 text-14 leading-normal no-underline truncate "
+                      className="text-custom-whiteTransparent font-quicksand font-medium text-sm leading-normal no-underline truncate "
                     >
                       {podcast.artistName}
                     </Link>
                   </div>
                 </TableCell>
-                <TableCell className="p-0 border-transparent-white-03 w-330 ">
-                  <div className="w-210 h-10  text-custom-whiteTransparent font-quicksand font-500 text-16 leading-normal no-underline truncate border-b ">
+                <TableCell className="p-0 border-transparent-white-03 w-80 ">
+                  <div className="w-52 h-10  text-custom-whiteTransparent font-quicksand font-mediumtext-base leading-normal no-underline truncate border-b ">
                     {removeHtmlTags(descriptions.get(podcast.trackId) || 'Loading...')}
                   </div>
                 </TableCell>
-                <TableCell className="p-0 w-92 h-5 text-custom-whiteTransparent font-quicksand font-500 text-16 leading-normal border-b border-transparent-white-03">
+                <TableCell className="p-0 w-24 h-5 text-custom-whiteTransparent font-quicksand font-medium text-base leading-normal border-b border-transparent-white-03">
                   {timeSince(podcast.releaseDate)}
                 </TableCell>
               </TableRow>
