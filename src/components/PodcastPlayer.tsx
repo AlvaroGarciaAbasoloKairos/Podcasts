@@ -3,7 +3,6 @@ import { IconButton, Slider } from '@mui/material';
 import { getPodcastFeed } from '../services';
 import { PodcastData, Podcast } from '../lib/types';
 import { formatTime } from '../lib';
-
 interface PodcastPlayerProps {
   data: Podcast | PodcastData['episodes'][0];
   onNext: () => void;
@@ -13,8 +12,6 @@ interface PodcastPlayerProps {
   playingType: 'podcast' | 'episode' | null;
   selectedPodcastIndex?: number | null;
   setSelectedPodcastIndex?: React.Dispatch<React.SetStateAction<number | null>>;
-  onEpisodeNext?: () => void;
-  onEpisodePrevious?: () => void;
 }
 
 export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
@@ -24,8 +21,6 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
   isPlaying,
   onPlayPause,
   playingType,
-  onEpisodeNext,
-  onEpisodePrevious,
 }) => {
   const [isRepeating, setIsRepeating] = useState(false);
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
@@ -38,7 +33,6 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
     playingType === 'podcast'
       ? (data as Podcast)?.artworkUrl100
       : (data as PodcastData['episodes'][0])?.artworkUrl160 || '';
-
   const title =
     playingType === 'podcast'
       ? (data as Podcast).collectionName
@@ -52,13 +46,12 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
     playingType === 'podcast'
       ? (data as Podcast).trackTimeMillis
       : (data as PodcastData['episodes'][0])?.trackTimeMillis;
-
   const elapsedTimePercentage = (elapsedTime / trackTimeMillis) * 100;
 
   const handleCanPlay = useCallback(() => {
     if (isPlaying) {
       audio.play().catch((error) => {
-        console.error('La reproducción falló.', error);
+        console.error('Playback failed.', error);
       });
     }
   }, [isPlaying, audio]);
@@ -68,7 +61,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
       audio.pause();
     } else {
       audio.play().catch((error) => {
-        console.error('La reproducción falló.', error);
+        console.error('Playback failed.', error);
       });
     }
     if (playingType !== null) {
@@ -80,34 +73,35 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
   };
 
   useEffect(() => {
-    if (playingType === 'podcast') {
-      const fetchEpisodes = async () => {
-        try {
-          const eps = (await getPodcastFeed((data as Podcast).feedUrl)).filter(
-            (e): e is string => e !== null,
-          );
-          setCurrentUrl(eps[0] || null);
-        } catch (error) {
-          console.error('Error fetching episodes:', error);
+    const fetchEpisodes = async () => {
+      if (playingType !== 'podcast') return;
+      try {
+        const podcast = data as Podcast;
+        if (!podcast || !podcast.feedUrl) {
+          console.error('Invalid podcast data.');
+          return;
         }
-      };
-
-      fetchEpisodes();
-    } else {
-      if (data && (data as PodcastData['episodes'][0]).episodeUrl) {
-        setCurrentUrl((data as PodcastData['episodes'][0]).episodeUrl);
+        const eps = (await getPodcastFeed(podcast.feedUrl))?.filter((e): e is string => e !== null);
+        setCurrentUrl(eps[0] || null);
+      } catch (error) {
+        console.error('Error retrieving the episodes:', error);
+      }
+    };
+    fetchEpisodes();
+    if (playingType !== 'podcast') {
+      const episode = data as PodcastData['episodes'][0];
+      if (episode && episode.episodeUrl) {
+        setCurrentUrl(episode.episodeUrl);
       }
     }
   }, [playingType, data]);
 
   useEffect(() => {
     audio.addEventListener('canplay', handleCanPlay);
-
     if (currentUrl) {
       audio.src = currentUrl;
       audio.load();
     }
-
     return () => {
       audio.removeEventListener('canplay', handleCanPlay);
       audio.pause();
@@ -122,9 +116,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
     const handleTimeUpdate = () => {
       setElapsedTime(audio.currentTime * 1000);
     };
-
     audio.addEventListener('timeupdate', handleTimeUpdate);
-
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
     };
@@ -151,7 +143,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
             className={`w-6 h-6 ${isShuffled ? 'filter brightness-0 saturate-0' : ''}`}
           />
         </IconButton>
-        <IconButton onClick={playingType === 'podcast' ? onPrevious : onEpisodePrevious}>
+        <IconButton onClick={onPrevious}>
           <img src="/images/step-forward-2.svg" alt="Step Backward Icon" className="w-6 h-6" />
         </IconButton>
         <IconButton onClick={handlePlayPauseClick}>
@@ -169,7 +161,7 @@ export const PodcastPlayer: React.FC<PodcastPlayerProps> = ({
             </div>
           )}
         </IconButton>
-        <IconButton onClick={playingType === 'podcast' ? onNext : onEpisodeNext}>
+        <IconButton onClick={onNext}>
           <img src="/images/step-forward-1.svg" alt="Step Forward Icon" className="w-6 h-6" />
         </IconButton>
         <IconButton onClick={() => setIsRepeating(!isRepeating)}>

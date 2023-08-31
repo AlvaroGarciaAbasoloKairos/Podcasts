@@ -26,7 +26,6 @@ export type PodcastData = {
     trackTimeMillis:number;
   }[];
 };
-
 export interface Episode {
   artistIds: number[];
   artistViewUrl: string;

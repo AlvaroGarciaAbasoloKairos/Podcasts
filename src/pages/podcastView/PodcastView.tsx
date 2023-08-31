@@ -75,7 +75,6 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
     }
   };
 
-
   const handleSearchTermChange = (term: string) => {
     setSearchTerm(term);
   };
@@ -121,16 +120,14 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
           />
         </div>
       </div>
-
       {
         <div className="flex justify-center items-center w-screen">
           <div className="mt-42 mb-5 mx-auto">
             <img
               src={imageUrl}
               alt={title}
-              className="w-822 h-280 rounded-15 bg-cover bg-no-repeat"
+              className="w-822 h-280 rounded-15 bg-cover bg-no-repeat object-cover"
             />
-
             <div className="flex justify-between items-center w-832 h-60 ">
               <IconButton
                 onClick={() => handleIconButtonClick(selectedEpisodeIndex)}
@@ -156,7 +153,7 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
                   alt="Search Icon"
                   className="w-4 h-4 mr-5 text-custom-white"
                 />
-                <span className="font-quicksand text-white text-16 font-normal leading-normal h-20 mr-2">
+                <span  className="font-quicksand text-white text-16 font-normal leading-normal h-20 mr-2">
                   Order by
                 </span>
                 <SortButton onSortChange={sortPodcasts} />
@@ -165,7 +162,6 @@ export const PodcastView: React.FC<PodcastViewProps> = ({
           </div>
         </div>
       }
-
       <div className="flex justify-center  w-screen">
         <Table className="w-832 mt-19 border-b border-transparent-white-03">
           <TableHead>

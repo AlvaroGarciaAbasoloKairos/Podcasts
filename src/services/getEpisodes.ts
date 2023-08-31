@@ -14,7 +14,6 @@ export const getEpisodes = async (podcastId: number, limit: number = 20) => {
   }
 };
 
-
 const handleErrors = (error: any) => {
   if (axios.isAxiosError(error)) {
     if (error.response?.status === 403) {

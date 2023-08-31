@@ -92,17 +92,14 @@ function App() {
               ? podcasts[selectedPodcastIndex!]
               : episodes[selectedEpisodeIndex!]
           }
-          onNext={playingType === 'podcast' ? handleNext : () => {}}
-          onPrevious={playingType === 'podcast' ? handlePrevious : () => {}}
+          onNext={handleNext }
+          onPrevious={ handlePrevious }
           isPlaying={isPlaying}
           onPlayPause={handlePlayPause}
           playingType={playingType}
-          onEpisodeNext={handleNext}
-          onEpisodePrevious={handlePrevious}
         />
       )}
     </>
   );
 }
-
 export default App;

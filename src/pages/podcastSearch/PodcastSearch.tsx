@@ -13,8 +13,7 @@ import { HeaderSearch, SortButton } from '../../components';
 import { timeSince, removeHtmlTags } from '../../lib';
 import { getPodcastDescription } from '../../services';
 import { Podcast } from '../../lib/types';
-
-interface PodcastSearchProps {
+export interface PodcastSearchProps {
   selectedPodcastIndex: number | null;
   setSelectedPodcastIndex: React.Dispatch<React.SetStateAction<number | null>>;
   isPlaying: boolean;
@@ -72,7 +71,7 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
     setSelectedPodcastIndex(index);
     onPlayPause('podcast');
   };
-  
+
   const sortPodcasts = (order: 'asc' | 'desc') => {
     const sortedPodcasts = [...podcasts].sort((a, b) => {
       if (order === 'asc') {
@@ -99,7 +98,6 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
       }
       setDescriptions(tempDescriptions);
     };
-
     fetchDescriptions();
   }, [podcasts]);
 
@@ -122,7 +120,6 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
           className="w-[822px]"
         />
       </div>
-
       <div className="flex justify-center items-center mb-5 w-screen">
         <div className="w-832">
           <div className="flex items-center justify-end">
@@ -138,9 +135,7 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
           </div>
         </div>
       </div>
-
       {error && <p className="text-red-500">Error: {error.message}</p>}
-
       <div className="flex justify-center w-screen">
         <Table className="w-832  border-b border-transparent-white-03">
           <TableHead>
@@ -159,10 +154,9 @@ export const PodcastSearch: React.FC<PodcastSearchProps> = ({
               </TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {podcasts.map((podcast: Podcast, index: number) => (
-              <TableRow key={podcast.trackId} >
+              <TableRow key={podcast.trackId}>
                 <TableCell className="p-0 h-80 w-50 border-b border-transparent-white-03">
                   <IconButton onClick={() => handleIconButtonClick(index)} className="pl-0">
                     {selectedPodcastIndex === index && isPlaying ? (

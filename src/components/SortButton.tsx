@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IconButton, Tooltip } from '@mui/material';
-
 interface SortButtonProps {
   onSortChange: (order: 'asc' | 'desc') => void;
 }
@@ -10,12 +9,10 @@ export const SortButton: React.FC<SortButtonProps> = ({ onSortChange }) => {
 
   const handleClick = () => {
     const newOrder = order === 'asc' ? 'desc' : 'asc';
-    console.log(`Changing order to ${newOrder}`);
     setOrder(newOrder);
     onSortChange(newOrder);
   };
   
-
   return (
     <Tooltip title={`Ordenar ${order === 'asc' ? 'Descendente' : 'Ascendente'}`}>
       <IconButton onClick={handleClick}  className="pl-1.5 ml-0">
